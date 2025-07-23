@@ -1,9 +1,10 @@
 from rest_framework import views, generics
-
+from rest_framework.response import Response
+from rest_framework import status
 
 from . import serializers
 from . import models
-
+from .tasks import generate_presentation
 
 class GeneratePresentation(generics.ListCreateAPIView):
     queryset = models.Presentation.objects.all()
@@ -15,7 +16,16 @@ class GeneratePresentation(generics.ListCreateAPIView):
 
         presentation = serializer.save()
 
-        presentation_id = presentation.presentation_id
+        generate_presentation.delay(presentation.presentation_id)
+
+        return Response(
+            {
+                "message": "Генерация запущена",
+                "presentation_id": presentation.presentation_id
+            },
+            status=status.HTTP_201_CREATED
+        )
+
 
 
 

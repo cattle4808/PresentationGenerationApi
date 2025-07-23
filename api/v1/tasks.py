@@ -1,6 +1,5 @@
 from celery import shared_task
 
-
 from . import models
 from . import serializers
 
@@ -19,7 +18,7 @@ def generate_presentation(presentation_id):
         presentation.status = 2
         presentation.save()
 
-        return
+        return "generated"
 
 
     except models.models.ObjectDoesNotExist:
