@@ -87,7 +87,10 @@ def replace_text_with_json_structure(input_pptx_path, json_structure):
 
                 except Exception as e:
                     continue
-        return prs
+
+        output_path = "output.pptx"
+        prs.save()
+        return output_path
 
     except Exception as e:
         print(f"Ошибка: {e}")

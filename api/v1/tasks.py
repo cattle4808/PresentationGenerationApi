@@ -19,6 +19,7 @@ def generate_presentation(presentation_id):
         presentation.status = 2
         presentation.save()
 
+        print("generated")
         return "generated"
 
 
