@@ -1,4 +1,3 @@
-from pprint import pprint
 import json
 from pptx import Presentation
 from pptx.shapes.group import GroupShape

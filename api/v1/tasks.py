@@ -4,8 +4,7 @@ from celery import shared_task
 from . import models
 from . import serializers
 
-from utils import get_json_structure_from_pptx
-
+from ...utils import renew_pptx
 @shared_task
 def generate_presentation(presentation_id):
     presentation = models.Presentation.objects.get(presentation_id=presentation_id)
@@ -14,8 +13,13 @@ def generate_presentation(presentation_id):
         presentation.status = 1
         presentation.save()
 
-        json_structure = get_json_structure_from_pptx.get_json_structure_from_pptx(presentation.example.path)
+        new_pptx = renew_pptx(presentation.example.path, presentation.theme)
 
+        presentation.presentation = new_pptx
+        presentation.status = 2
+        presentation.save()
+
+        return
 
 
     except models.models.ObjectDoesNotExist:
